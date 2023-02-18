@@ -98,8 +98,13 @@ public class Simulation
 
                 if (lanes.indexOf(lane) < amtBusLanes)
                 {
+                    boolean hasBus = false;
+                    for (Vehicle v : lane)
+                        if (v.getVehicleType() == Vehicle_Type.BUS)
+                            hasBus = true;
+
                     // checks whether the number of buses per lane has been exceeded
-                    if (lane.size() <  amtPublicBuses)
+                    if (!hasBus)
                         vehicleType = Vehicle_Type.BUS;
                     else continue;
                 }
@@ -130,7 +135,7 @@ public class Simulation
         {
             case BUS -> {
                 Bus bus = new Bus();
-                int amtPeople = (int) ((Math.random() * (bus.getCapacity() - 10 + 1)) + 10);
+                int amtPeople = (int) ((Math.random() * (bus.getCapacity() - 20 + 1)) + 20);
                 if (dequeue(amtPeople)) bus.fill(amtPeople); // if there aren't enough people just use the rest
                 else
                 {
