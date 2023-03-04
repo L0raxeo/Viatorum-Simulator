@@ -1,11 +1,16 @@
 package com.viatorum;
 
+import com.viatorum.simulation.DataHolder;
 import com.viatorum.simulation.Simulation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Viatorum
 {
+
+    private final List<DataHolder> simulationData = new ArrayList<>();
 
     private Scanner input;
     private boolean running = false;
@@ -42,6 +47,9 @@ public class Viatorum
         System.out.println("# of simulations");
         int amtSimulations = input.nextInt();
 
+        System.out.println("|---------------------------------|");
+        System.out.println("|---------------------------------|");
+
         for (int i = 0; i < amtSimulations; i++)
         {
             System.out.println("Creating simulation...");
@@ -61,23 +69,61 @@ public class Viatorum
 
             while (simulation.running) {}
 
-            recordSimulation(simulation);
+            recordData(simulation);
         }
+
+        System.out.println("|---------------------------------|");
+        System.out.println("|---------------------------------|");
+        System.out.println();
+        System.out.println("Averages of the past " + amtSimulations + " simulations");
+        System.out.println("All decimals are rounded down.");
+        recordData(getDataAverages());
+
+        simulationData.clear();
     }
 
-    private void recordSimulation(Simulation simulation)
+    private DataHolder getDataAverages()
     {
-        System.out.println("Recording simulation...");
+        DataHolder dataAverages = new DataHolder();
 
-        simulation.record();
-        System.out.println("Queued People: " + simulation.queuedPeople);
-        System.out.println("People being processed: " + simulation.peopleProcessing);
-        System.out.println("Total people Dequeued: " + simulation.peopleDequeued);
-        System.out.println("Total people queued " + simulation.totalPeopleQueued);
-        System.out.println("Total people processed: " + simulation.totalPeopleProcessed);
-        System.out.println("Total vehicles processed: " + simulation.totalVehiclesProcessed);
+        for (DataHolder dh : simulationData)
+        {
+            dataAverages.queuedPeople += dh.queuedPeople;
+            dataAverages.peopleProcessing += dh.peopleProcessing;
+            dataAverages.peopleDequeued += dh.peopleDequeued;
+            dataAverages.totalPeopleQueued += dh.totalPeopleQueued;
+            dataAverages.totalPeopleProcessed += dh.totalPeopleProcessed;
+            dataAverages.totalVehiclesProcessed += dh.totalVehiclesProcessed;
+        }
+
+        dataAverages.queuedPeople /= simulationData.size();
+        dataAverages.peopleProcessing /= simulationData.size();
+        dataAverages.peopleDequeued /= simulationData.size();
+        dataAverages.totalPeopleQueued /= simulationData.size();
+        dataAverages.totalPeopleProcessed /= simulationData.size();
+        dataAverages.totalVehiclesProcessed /= simulationData.size();
+
+        return dataAverages;
+    }
+
+    private void recordData(DataHolder data)
+    {
+        System.out.println("Recording data...");
+
+        if (data instanceof Simulation)
+            ((Simulation) data).record();
+
+        System.out.println("Queued People: " + data.queuedPeople);
+        System.out.println("People being processed: " + data.peopleProcessing);
+        System.out.println("Total people Dequeued: " + data.peopleDequeued);
+        System.out.println("Total people queued " + data.totalPeopleQueued);
+        System.out.println("Total people processed: " + data.totalPeopleProcessed);
+        System.out.println("Total vehicles processed: " + data.totalVehiclesProcessed);
 
         System.out.println();
+
+        if (data instanceof Simulation)
+            simulationData.add(data);
     }
 
     public void start()

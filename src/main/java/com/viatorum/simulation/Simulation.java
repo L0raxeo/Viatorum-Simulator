@@ -4,34 +4,10 @@ import com.viatorum.simulation.vehicles.*;
 
 import java.util.*;
 
-public class Simulation
+public class Simulation extends DataHolder
 {
 
     private final List<Queue<Vehicle>> lanes = new ArrayList<>();
-
-    // Independent Variables
-
-    private final int laneLength;
-    private final int amtBusLanes;
-    private final int amtQueuedPeopleAddends;
-    private final float evComposite;
-    private final float sedanComposite;
-    private final float amtPublicBuses;
-
-    /**
-     * Each vehicle will seat a random number of people [1, maxSeating]
-     * randomness will simulate family owned cars and individually owned
-     * cars (e.g. family of 4, person driving to work, 2 people driving
-     * to a restaurant... etc)
-     */
-
-    // Dependent Variables
-    public int queuedPeople;
-    public int peopleDequeued;
-    public int peopleProcessing;
-    public int totalPeopleQueued;
-    public int totalPeopleProcessed;
-    public int totalVehiclesProcessed;
 
     public boolean running = false;
 
