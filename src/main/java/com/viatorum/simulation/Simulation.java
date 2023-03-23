@@ -64,7 +64,9 @@ public class Simulation extends DataHolder
 
             if (lane.size() < laneLength)
             {
-                if ((int) (Math.random() * 6) + 1 > 2 || queuedPeople == 0) // by chance make this a blank space in the queue
+                boolean isBusLane = lanes.indexOf(lane) < amtBusLanes;
+
+                if (!isBusLane && ((int) (Math.random() * 6) + 1 > 2 || queuedPeople == 0)) // by chance make this a blank space in the queue
                 {
                     lane.offer(new Empty());
                     continue;
@@ -72,17 +74,17 @@ public class Simulation extends DataHolder
 
                 Vehicle_Type vehicleType;
 
-                if (lanes.indexOf(lane) < amtBusLanes)
+                if (isBusLane)
                 {
-                    boolean hasBus = false;
+                    int busCount = 0;
                     for (Vehicle v : lane)
                         if (v.getVehicleType() == Vehicle_Type.BUS)
-                            hasBus = true;
+                            busCount++;
 
                     // checks whether the number of buses per lane has been exceeded
-                    if (!hasBus)
+                    if (busCount < amtPublicBuses)
                         vehicleType = Vehicle_Type.BUS;
-                    else continue;
+                    else vehicleType = Vehicle_Type.EMPTY;
                 }
                 else
                 {

@@ -17,8 +17,17 @@ public class Viatorum
 
     private void createSimulation()
     {
+        System.out.println("# of lanes - [1, 50}");
+        int amtLanes = input.nextInt();
+
         System.out.println("lane length (this determines how long each vehicle is on the road before it exits)");
         int laneLength = input.nextInt();
+
+        System.out.println("# of public bus lanes");
+        int amtPublicBusLanes = input.nextInt();
+
+        System.out.println("# of public buses per lane - [0, 5]");
+        int amtPublicBuses = input.nextInt();
 
         System.out.println("# of initially queued people");
         int amtInitQueuedPeople = input.nextInt();
@@ -26,20 +35,11 @@ public class Viatorum
         System.out.println("# of queued people per iteration");
         int amtQueuedPeople = input.nextInt();
 
-        System.out.println("# of lanes - [1, 50}");
-        int amtLanes = input.nextInt();
-
         System.out.println("% EV - [0.00, 1.00]");
         float evComposite = input.nextFloat();
 
         System.out.println("% of sedans (vs. SUV) - [0.00-1.00]");
         float sedanComposite = input.nextFloat();
-
-        System.out.println("# of public bus lanes");
-        int amtPublicBusLanes = input.nextInt();
-
-        System.out.println("# of public buses per lane - [0, 5]");
-        int amtPublicBuses = input.nextInt();
 
         System.out.println("# of iterations");
         int amtIterations = input.nextInt();
