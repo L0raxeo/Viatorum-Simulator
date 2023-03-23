@@ -67,8 +67,6 @@ public class Viatorum
 
             simulation.start(amtIterations);
 
-            while (simulation.running) {}
-
             recordData(simulation);
         }
 
